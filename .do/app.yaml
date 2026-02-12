@@ -3,7 +3,7 @@ region: nyc
 services:
 - name: web
   github:
-    repo: your-username/IKAN
+    repo: emilyakhya/ikan-fish-detection
     branch: main
     deploy_on_push: true
   dockerfile_path: Dockerfile
