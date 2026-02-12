@@ -1,0 +1,25 @@
+name: ikan-fish-detection
+region: nyc
+services:
+- name: web
+  github:
+    repo: your-username/IKAN
+    branch: main
+    deploy_on_push: true
+  dockerfile_path: Dockerfile
+  docker_build_context: .
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  health_check:
+    http_path: /api/health
+  envs:
+  - key: FLASK_ENV
+    value: production
+  - key: PORT
+    value: "8080"
+  - key: PYTHONUNBUFFERED
+    value: "1"
+  routes:
+  - path: /
+  run_command: python app.py

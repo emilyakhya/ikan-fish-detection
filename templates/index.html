@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎣 IKAN - Fish Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎣 IKAN Fish Detection System</h1>
+            <p class="subtitle">Deteksi Semua Objek sebagai Potential Fish</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">📤</div>
+                        <h2>Upload Gambar atau Video</h2>
+                        <p>Drag & drop file di sini atau klik untuk memilih</p>
+                        <p class="file-info">Format: JPG, PNG, MP4, AVI (Max: 100MB)</p>
+                        <input type="file" id="fileInput" accept="image/*,video/*" hidden>
+                        <button class="btn btn-primary" id="selectFileBtn">Pilih File</button>
+                    </div>
+                </div>
+                
+                <div class="file-preview" id="filePreview" style="display: none;">
+                    <div class="preview-header">
+                        <h3>Preview</h3>
+                        <button class="btn-close" id="clearPreviewBtn">×</button>
+                    </div>
+                    <div class="preview-content">
+                        <img id="previewImage" style="display: none;" alt="Preview">
+                        <video id="previewVideo" style="display: none;" controls></video>
+                        <div class="file-info-display">
+                            <p><strong>File:</strong> <span id="fileName"></span></p>
+                            <p><strong>Ukuran:</strong> <span id="fileSize"></span></p>
+                            <p><strong>Tipe:</strong> <span id="fileType"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section">
+                <h3>⚙️ Pengaturan Deteksi</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="confSlider">Confidence Threshold: <span id="confValue">0.4</span></label>
+                        <input type="range" id="confSlider" min="0.1" max="1.0" step="0.05" value="0.4">
+                        <div class="slider-labels">
+                            <span>0.1 (Sensitif)</span>
+                            <span>1.0 (Ketat)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="weightsSelect">Model Weights:</label>
+                        <select id="weightsSelect">
+                            <option value="yolov5s.pt">Loading...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="imgszSelect">Ukuran Gambar:</label>
+                        <select id="imgszSelect">
+                            <option value="416">416px (Cepat)</option>
+                            <option value="640" selected>640px (Seimbang)</option>
+                            <option value="1280">1280px (Akurat)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="action-section">
+                <button class="btn btn-detect" id="detectBtn" disabled>
+                    <span class="btn-text">🔍 Jalankan Deteksi</span>
+                    <span class="btn-loader" style="display: none;">⏳ Memproses...</span>
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h3>📊 Hasil Deteksi</h3>
+                    <button class="btn btn-secondary" id="downloadBtn" style="display: none;">💾 Download Hasil</button>
+                </div>
+                <div id="modelInfo" style="display: block; padding: 15px; margin: 15px 0; background: #e7f3ff; border: 1px solid #0066cc; border-radius: 5px; color: #004085;">
+                    <strong>ℹ️ Informasi:</strong> Sistem ini fokus untuk mendeteksi semua objek dalam gambar atau video. 
+                    Semua objek yang terdeteksi dianggap sebagai <strong>potential fish</strong> (ikan potensial).
+                </div>
+                
+                <div class="results-content">
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be populated here -->
+                    </div>
+                    
+                    <div class="result-display">
+                        <img id="resultImage" style="display: none;" alt="Detection Result">
+                        <video id="resultVideo" style="display: none;" controls></video>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by YOLOv5 | IKAN Fish Detection System</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingText">Memproses deteksi...</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Web Interface Dependencies for IKAN Fish Detection
+# Install with: pip install -r requirements_web.txt
+
+# Flask web framework
+Flask>=2.3.0
+flask-cors>=4.0.0
+
+# Core dependencies (also needed from yolov5/requirements.txt)
+# Make sure to install yolov5 requirements first:
+# pip install -r yolov5/requirements.txt

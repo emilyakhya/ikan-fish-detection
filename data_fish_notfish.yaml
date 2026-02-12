@@ -1,0 +1,16 @@
+# IKAN Fish Detection Dataset Configuration
+# 2 Classes: Fish and notFish
+
+# Dataset paths
+path: .  # dataset root dir
+train: data/train/images  # train images (relative to 'path')
+val: data/val/images  # val images (relative to 'path')
+test: data/test/images  # test images (optional)
+
+# Number of classes
+nc: 2
+
+# Class names
+names:
+  0: Fish
+  1: notFish
