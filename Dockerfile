@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     git \
+    curl \
     libgl1-mesa-glx \
     libglib2.0-0 \
     libsm6 \
@@ -19,14 +20,22 @@ RUN apt-get update && apt-get install -y \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
+# Clone YOLOv5 repository
+RUN git clone https://github.com/ultralytics/yolov5.git /app/yolov5 && \
+    cd /app/yolov5 && \
+    git checkout v7.0 && \
+    rm -rf .git
+
 # Copy requirements files
 COPY requirements_web.txt /app/
-COPY yolov5/requirements.txt /app/yolov5_requirements.txt
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip wheel && \
     pip install --no-cache-dir -r requirements_web.txt && \
-    pip install --no-cache-dir -r yolov5_requirements.txt
+    pip install --no-cache-dir -r /app/yolov5/requirements.txt
+
+# Download YOLOv5s pre-trained weights (if not provided in repo)
+RUN curl -L -o /app/yolov5s.pt https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt || echo "Model will be auto-downloaded if needed"
 
 # Copy application files
 COPY . /app/
