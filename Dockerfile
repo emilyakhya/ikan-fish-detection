@@ -54,13 +54,6 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8080/api/health')" || exit 1
 
-# Create startup script to download model if needed
-RUN echo '#!/bin/bash\n\
-if [ ! -f /app/yolov5s.pt ]; then\n\
-    echo "Downloading yolov5s.pt model weights..."\n\
-    curl -L -o /app/yolov5s.pt https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt || echo "Model will be auto-downloaded by YOLOv5"\n\
-fi\n\
-exec python app.py' > /app/start.sh && chmod +x /app/start.sh
-
 # Run the application
-CMD ["/app/start.sh"]
+# Model will be auto-downloaded by YOLOv5 if not present
+CMD ["python", "app.py"]
