@@ -28,8 +28,10 @@ RUN git clone --depth 1 --branch v7.0 https://github.com/ultralytics/yolov5.git 
 COPY requirements_web.txt /app/
 
 # Install Python dependencies (cache this layer separately)
-# Install web requirements first (lighter), then YOLOv5 requirements
+# Install CPU-only PyTorch first (much smaller, faster install)
+# Then install web requirements and YOLOv5 requirements
 RUN pip install --no-cache-dir --upgrade pip wheel setuptools && \
+    pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r requirements_web.txt && \
     pip install --no-cache-dir -r /app/yolov5/requirements.txt
 
