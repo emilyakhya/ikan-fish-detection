@@ -52,7 +52,13 @@ uploads/*
 *.ipynb
 .ipynb_checkpoints/
 
-# Large model files (if not needed in image)
-# Uncomment if you want to download models at runtime
-# *.pt
-# yolov5s.pt
+# Large model files (download at runtime)
+*.pt
+yolov5s.pt
+
+# Large video files (not needed in image)
+videos/
+*.mp4
+*.avi
+*.mov
+*.mkv
